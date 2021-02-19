@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Respiratory Rate Counter</string>
+    <string name="default_title_text">Respiratory Rate Calculator</string>
+    <string name="default_subtitle_text">To Calculate respiratory rate, tap each time the child inhales</string>
+    <string name="submit_text">Submit</string>
+    <string name="start_text">Start Assessment</string>
+    <string name="elapsed_time">Elapsed time:</string>
+    <string name="reset_text">Reset</string>
+    <string name="manual_input">Manual input</string>
+    <string name="could_take">This process can take up to one minute.</string>
+</resources>

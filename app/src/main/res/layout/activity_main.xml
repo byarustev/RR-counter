@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/mainContainerStyle"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="75dp">
+                <androidx.cardview.widget.CardView
+                    style="@style/card_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp">
+                        <TextView
+                            android:id="@+id/Title"
+                            style="@style/QuestionTitleText"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="12dp"
+                            android:text="@string/default_title_text" />
+
+                        <TextView
+                            android:id="@+id/Subtitle"
+                            style="@style/QuestionSubtitleText"
+                            android:text="@string/default_subtitle_text"/>
+                        <TextView
+                            android:id="@+id/Warning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_marginTop="12dp"
+                            android:text="@string/could_take"
+                            android:textAlignment="center"
+                            android:textColor="@color/primaryButtonColor"
+                            android:textSize="14dp"
+                            android:gravity="center_horizontal" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="24dp"
+                android:background="@drawable/circle_background"
+                android:elevation="5dp">
+
+                <TextView
+                    android:id="@+id/TapOnInhale"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="@string/start_text"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/DynamicNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/ElapsedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/elapsed_time"
+            android:textColor="@color/topBarColor"
+            android:textSize="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/ResetButton"
+                style="@style/secondaryButtonStyle"
+                android:layout_weight="1"
+                android:text="@string/reset_text" />
+
+            <Button
+                android:id="@+id/ManualInput"
+                style="@style/primaryButtonStyle"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:text="@string/manual_input" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

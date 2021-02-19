@@ -1,0 +1,55 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.RespiratoryRateCounter" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryButtonColor</item>
+        <item name="colorPrimaryDark">@color/topBarColor</item>
+        <item name="colorAccent">@color/primaryAccentColor</item>
+        <item name="android:windowBackground">@color/softGray</item>
+    </style>
+    <style name="mainContainerStyle">
+        <item name="android:background">@color/softGray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="card_style">
+        <item name="android:layout_margin">24dp</item>
+    </style>
+    <style name="QuestionButtonMain">
+        <item name="android:layout_width">235dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/softGray</item>
+    </style>
+
+    <style name="QuestionTitleText">
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="QuestionSubtitleText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="largeText">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="secondaryButtonStyle" parent="QuestionButtonMain">
+        <item name="android:background">@drawable/secondary_button</item>
+    </style>
+    <style name="primaryButtonStyle" parent="QuestionButtonMain">
+        <item name="android:background">@drawable/primary_button</item>
+    </style>
+</resources>
