@@ -8,4 +8,14 @@
     <string name="reset_text">Reset</string>
     <string name="manual_input">Manual input</string>
     <string name="could_take">This process can take up to one minute.</string>
+    <string name="breaths_per_min">Breaths per minute</string>
+    <string name="breaths_per_minute">Breaths per minute</string>
+    <string name="normal_breathing"><b>normal breathing</b></string>
+    <string name="respiratory_rate">Respiratory Rate</string>
+    <string name="breathing_info_under1">Normal rate for children under 12 months is under 50 breaths per minute</string>
+    <string name="breathing_info_over1">Normal rate for children ages 1–5 years is under 40 breaths per minute</string>
+    <string name="no_continue_text">No, continue</string>
+    <string name="continue_text">Continue</string>
+    <string name="tap_on_inhale">Tap on inhale</string>
+    <string name="fast_breathing"><b>fast breathing</b></string>
 </resources>
