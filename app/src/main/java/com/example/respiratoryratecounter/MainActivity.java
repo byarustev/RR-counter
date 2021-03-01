@@ -1,6 +1,7 @@
 package com.example.respiratoryratecounter;
 
 import android.app.Dialog;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -26,29 +27,33 @@ public class MainActivity extends AppCompatActivity {
     private long lastBreath;
     private double value;
     private int numBreaths, margin, score, birthday;
-    private String ifFastBreathing,ifNormalBreathing;
+    private String ifFastBreathing, ifNormalBreathing;
     private boolean fastBreathing;
     private CountDownTimer timer;
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         numBreaths = 5;
-        margin=13;
+        margin = 13;
         score = 0;
         durations = new ArrayList<>();
         newTimer();
-        lastBreath=-1;
+        lastBreath = -1;
 
         circle = findViewById(R.id.Circle);
         manualInput = findViewById(R.id.ManualInput);
         resetButton = findViewById(R.id.ResetButton);
         elapsedTime = findViewById((R.id.ElapsedTime));
 
+        mp = MediaPlayer.create(this, R.raw.soho);
+
         circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 view.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.circle_animation));
                 ((TextView) view.findViewById(R.id.TapOnInhale)).setText(R.string.tap_on_inhale);
                 breathTaken();
@@ -86,12 +91,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetRespRate();
+            }
+        });
+
     }
 
     /**
      * shows popup with alert explaining RR and if child is experiencing fast breathing
      */
-    public void showDialog(){
+    public void showDialog() {
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(MainActivity.this.getWindow().FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.respiratory_rate_result_dialog_layout);
@@ -103,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         NumberFormat formatter = new DecimalFormat("#0");
         respRateNum.setText(formatter.format(value));
 
-        if(fastBreathing){
+        if (fastBreathing) {
 
             condition.setText(R.string.fast_breathing);
             condition.setTextColor(MainActivity.this.getResources().getColor(R.color.red));
@@ -111,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             condition.setText(R.string.normal_breathing);
             condition.setTextColor(MainActivity.this.getResources().getColor(R.color.primaryButtonColor));
         }
-        if (birthday<2) {
+        if (birthday < 2) {
             breathInfo.setText(R.string.breathing_info_under1);
         } else {
             breathInfo.setText(R.string.breathing_info_over1);
@@ -141,31 +153,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String millisecondsToString(long millis){
-        String  ms = (TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)))+
-                ":"+ (TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+    public String millisecondsToString(long millis) {
+        String ms = (TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))) +
+                ":" + (TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
         return ms;
     }
 
-    public void updateElapsedTimeView(long millis){
+    public void updateElapsedTimeView(long millis) {
         String b = MainActivity.this.getResources().getString(R.string.elapsed_time);
-        elapsedTime.setText(b+" "+millisecondsToString(millis));
+        elapsedTime.setText(b + " " + millisecondsToString(millis));
     }
+
     /**
      * Creates new timer to break off after one minute in worst case where taps are too inconsistent.
      */
-    public void newTimer(){
-        timer = new CountDownTimer(60*1000,1000) {
+    public void newTimer() {
+
+        timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long l) {
-                updateElapsedTimeView((60*1000)-l);
+                mp.start();
+                updateElapsedTimeView((60 * 1000) - l);
             }
 
             @Override
             public void onFinish() {
-                if(durations.size()<5){
+                if (durations.size() < 5) {
+                    if (mp.isPlaying()) {
+                        mp.stop();
+                    }
                     resetRespRate();
                 } else {
+                    if (mp.isPlaying()) {
+                        mp.stop();
+                    }
                     value = getBreathRate(durations.size());
                     completeMeasuring();
                 }
@@ -173,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void completeMeasuring(){
+    public void completeMeasuring() {
         resetTimer();
         evalFastBreathing();
         showDialog();
@@ -182,50 +203,50 @@ public class MainActivity extends AppCompatActivity {
     /**
      * method decides whether child is experiencing fast breathing based on RR and age.
      */
-    public void evalFastBreathing(){
+    public void evalFastBreathing() {
 
-            if (birthday>-1) {
-                if (birthday <2) {
-                    if(value>=50 && value<60){
-                        fastBreathing = true;
-                        score = 2;
-                        return;
-                    }
-
-                    if (value >=60) {
-                        fastBreathing = true;
-                        score = 3;
-                        return;
-                    }
-                }
-                else {
-                    if (value >= 40 && value <45) {
-                        fastBreathing = true;
-                        score = 2;
-                        return;
-                    }
-                    if (value >= 45) {
-                        fastBreathing = true;
-                        score = 3;
-                        return;
-                    }
+        if (birthday > -1) {
+            if (birthday < 2) {
+                if (value >= 50 && value < 60) {
+                    fastBreathing = true;
+                    score = 2;
+                    return;
                 }
 
-                fastBreathing = false;
+                if (value >= 60) {
+                    fastBreathing = true;
+                    score = 3;
+                    return;
+                }
             } else {
-                //TODO
+                if (value >= 40 && value < 45) {
+                    fastBreathing = true;
+                    score = 2;
+                    return;
+                }
+                if (value >= 45) {
+                    fastBreathing = true;
+                    score = 3;
+                    return;
+                }
             }
+
+            fastBreathing = false;
+        } else {
+            //TODO
+        }
 
     }
 
-    public void resetRespRate(){
+    public void resetRespRate() {
         ((TextView) circle.findViewById(R.id.TapOnInhale)).setText(R.string.start_text);
         durations.clear();
         lastBreath = -1;
         resetTimer();
         updateElapsedTimeView(0);
     }
-    public void resetTimer(){
+
+    public void resetTimer() {
         timer.cancel();
         newTimer();
     }
@@ -242,8 +263,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * determines if value is in bounds
+     *
      * @param val value
-     * @param up upper bound
+     * @param up  upper bound
      * @param low lower bound
      * @return is in bounds
      */
@@ -271,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Calculates the lower bound of what is considered a consistent breath given the margin
+     *
      * @param med median
      * @return lower bound value
      */
@@ -280,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Calculates the upper bound of what is considered a consistent breath given the margin
+     *
      * @param med median
      * @return upper bound value
      */
@@ -312,9 +336,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return numBreaths;
     }
-    public void startTimer(){
+
+    public void startTimer() {
+
         timer.start();
     }
+
     /**
      * handles logic for when a breath is measured
      */
@@ -323,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
         if (lastBreath != -1) {
             long dur = currTime - lastBreath;
             durations.add(dur);
-        } else{
+        } else {
             startTimer();
         }
 
@@ -353,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
     public void setIfNormalBreathing(String ifNormalBreathing) {
         this.ifNormalBreathing = ifNormalBreathing;
     }
+
     public int getScore() {
         return score;
     }
